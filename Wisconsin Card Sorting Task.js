@@ -13,7 +13,7 @@ const { round } = util;
 
 // store info about the experiment session:
 let expName = 'Wisconsin Card Sorting Task';  // from the Builder filename that created this script
-let expInfo = {'participant': '', 'session': '001'};
+let expInfo = {'participant': '', 'session': '001', 'group': '', 'time_of_day': ''};
 
 // Start code blocks for 'Before Experiment'
 // init psychoJS:

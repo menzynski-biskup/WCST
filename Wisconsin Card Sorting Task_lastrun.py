@@ -35,7 +35,7 @@ os.chdir(_thisDir)
 # Store info about the experiment session
 psychopyVersion = '2022.1.2'
 expName = 'Wisconsin Card Sorting Task'  # from the Builder filename that created this script
-expInfo = {'participant': '', 'session': '001'}
+expInfo = {'participant': '', 'session': '001', 'group': '', 'time_of_day': ''}
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
 if dlg.OK == False:
     core.quit()  # user pressed cancel
