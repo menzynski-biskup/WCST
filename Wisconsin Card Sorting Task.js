@@ -15,6 +15,25 @@ const { round } = util;
 let expName = 'Wisconsin Card Sorting Task';  // from the Builder filename that created this script
 let expInfo = {'participant': '', 'session': '001', 'group': '', 'time_of_day': ''};
 
+// Parse URL parameters before showing the setup dialog so that URL-provided
+// fields can be excluded from the dialog (e.g. when launched from Qualtrics).
+const _urlParams = new URLSearchParams(window.location.search);
+const _urlExpInfo = {};
+for (const [key, value] of _urlParams.entries()) {
+  if (key in expInfo) {
+    _urlExpInfo[key] = value;
+  }
+}
+// Apply URL-provided values to expInfo immediately.
+Object.assign(expInfo, _urlExpInfo);
+// Build a dialog-only info object containing only fields NOT provided via URL.
+const _dialogExpInfo = {};
+for (const key of Object.keys(expInfo)) {
+  if (!(key in _urlExpInfo)) {
+    _dialogExpInfo[key] = expInfo[key];
+  }
+}
+
 // Start code blocks for 'Before Experiment'
 // init psychoJS:
 const psychoJS = new PsychoJS({
@@ -29,10 +48,19 @@ psychoJS.openWindow({
   waitBlanking: true
 });
 // schedule the experiment:
-psychoJS.schedule(psychoJS.gui.DlgFromDict({
-  dictionary: expInfo,
-  title: expName
-}));
+if (Object.keys(_dialogExpInfo).length > 0) {
+  // Show dialog with only the fields that were not provided via URL.
+  psychoJS.schedule(psychoJS.gui.DlgFromDict({
+    dictionary: _dialogExpInfo,
+    title: expName
+  }));
+} else {
+  // All fields were provided via URL — skip the dialog entirely.
+  psychoJS.schedule(async function() {
+    psychoJS.gui.dialogComponent = {button: 'OK'};
+    return Scheduler.Event.NEXT;
+  });
+}
 
 const flowScheduler = new Scheduler(psychoJS);
 const dialogCancelScheduler = new Scheduler(psychoJS);
@@ -139,6 +167,9 @@ psychoJS.experimentLogger.setLevel(core.Logger.ServerLevel.EXP);
 
 var frameDur;
 async function updateInfo() {
+  // Merge values entered in the dialog (if any) back into expInfo.
+  Object.assign(expInfo, _dialogExpInfo);
+
   expInfo['date'] = util.MonotonicClock.getDateStr();  // add a simple timestamp
   expInfo['expName'] = expName;
   expInfo['psychopyVersion'] = '2022.1.2';
