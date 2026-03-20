@@ -92,7 +92,7 @@ defaultKeyboard = keyboard.Keyboard(backend='iohub')
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 instructions = visual.TextStim(win=win, name='instructions',
-    text='In this task you will be required to sort the presented cards based on a rule. The rule will not be presented, however you will receive feedback on each trial. After a certain amount of trials the rule will change. To select your response click on one of the four cards presented at the top of the screen. ',
+    text='In this task you will be required to sort the presented cards based on a rule i.e. the cards will have to be sorted based on either colour, shape or number. The rule will not be presented, however you will receive feedback on each trial. After a certain amount of trials the rule will change to a different one. To select your response click on one of the four cards presented at the top of the screen. ',
     font='Arial',
     pos=(0, 0), height=0.05, wrapWidth=.9, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -128,7 +128,7 @@ example_image = visual.ImageStim(
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=-1.0)
 example_text_2 = visual.TextStim(win=win, name='example_text_2',
-    text='Place the card shown at the bottom of the screen under one of the four cards at the top by clicking on the card you think it matches. After you select your response, feedback will be provided. Click on the image to start the experiment.',
+    text='The presented card (bottom centre) can be categorised based on shape (dots), colour (yellow) or number (three). Click on the first card if you want to categorise it by the shape, second if you want categorise it by colour and third if you want to categorise it by number. After you select your response, feedback will be provided. Click on the image to start the experiment.',
     font='Arial',
     pos=(0, -0.25), height=0.04, wrapWidth=.9, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
