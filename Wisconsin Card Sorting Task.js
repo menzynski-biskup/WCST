@@ -1032,9 +1032,6 @@ function FeedbackRoutineEnd() {
         thisComponent.setAutoDraw(false);
       }
     }
-    if ((trials.thisTrialN === 6)) {
-        trials.finished = true;
-    }
     
     return Scheduler.Event.NEXT;
   };

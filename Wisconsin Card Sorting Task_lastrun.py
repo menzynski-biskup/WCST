@@ -752,8 +752,6 @@ for thisBlock in blocks:
         for thisComponent in FeedbackComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
-        if trials.thisTrialN == 6:
-            trials.finished = True
         trials.addData('feedback_text.started', feedback_text.tStartRefresh)
         trials.addData('feedback_text.stopped', feedback_text.tStopRefresh)
         thisExp.nextEntry()
