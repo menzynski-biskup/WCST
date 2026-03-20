@@ -35,9 +35,8 @@ Stimuli:
 Trial and block structure:
     The task consists of 6 blocks. Each block is randomly drawn (without replacement within a pair
     of repetitions) from the three possible rules, so that every rule appears exactly twice across
-    the session. Within each block a maximum of 7 trials are presented (the trial loop terminates
-    after the 7th trial regardless of performance). The total number of experimental trials is
-    therefore 42.
+    the session. Within each block all 64 cards from the active rule's subset are presented in
+    randomised order. The total number of unique card images in the stimulus set is 64.
 
 
 Comparison with the standard WCST
@@ -54,17 +53,16 @@ The present computerised implementation differs from the standard version in the
 
 1. Fixed rather than criterion-based rule shifts. In the standard WCST the rule changes only after
    10 consecutive correct responses, making attainment of each category contingent on performance.
-   Here the rule changes after exactly 7 trials regardless of accuracy. This removes the
+   Here the rule changes after exactly 64 trials regardless of accuracy. This removes the
    criterion-based element that is central to the clinical interpretation of perseverative errors
    and the total number of categories completed, so those standard indices cannot be computed.
 
-2. Fewer trials per block. Seven trials per block is substantially shorter than the 10-consecutive-
-   correct-response criterion required in the standard version. The shorter block length reduces
-   statistical power for estimating within-block learning and limits the detection of perseverative
-   responding.
+2. Fewer trials per block. Sixty-four trials per block is shorter than the full standard version,
+   which can extend across 128 cards. The shorter block length reduces statistical power for
+   estimating within-block learning and limits the detection of perseverative responding.
 
 3. Reduced total trial count. The standard WCST administers 64 to 128 cards; this version
-   administers exactly 42. The reduced number of trials limits the reliability of derived scores
+   administers exactly 64. The reduced number of trials limits the reliability of derived scores
    (e.g., total errors, perseverative errors) relative to normative data collected with the full
    version.
 
@@ -106,7 +104,7 @@ still be compared to other research studies that used modified or computerised v
 There is quite a lot of such research, especially in studies of cognitive flexibility and prefrontal
 functions (Nyhus & Barcelo, 2009). However different research versions vary quite a lot in how many
 trials they use, whether rule shifts are fixed or criterion-based, and also whether or not sorting
-dimensions are disclosed to participants. This version uses fixed 7-trial blocks and discloses the
+dimensions are disclosed to participants. This version uses fixed 64-trial blocks and discloses the
 dimensions in instructions, which will affect how results compare to other versions.
 When comparing across studies it is probably best to use proportion correct as the main accuracy
 measure (Heaton et al., 1993) rather than raw error counts, because different versions have
