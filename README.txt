@@ -94,7 +94,52 @@ to participants, the standard clinical indices (perseverative errors, perseverat
 categories completed, failure to maintain set) cannot be interpreted using published normative data
 (Heaton et al., 1993; Kongs et al., 2000). The task is suitable for experimental research requiring
 a brief, computerised measure of cognitive flexibility and set-shifting, but direct comparisons with
-clinical WCST norms should be made with caution.
+clinical WCST norms should be made with caution. For guidance on comparing results with other
+research studies, see the section below.
+
+
+Comparing with other research versions of the WCST
+---------------------------------------------------
+
+Although direct comparisons with standardised clinical norms are not appropriate (see above), this
+task can be meaningfully compared with other research studies that use abbreviated or computerised
+WCST variants. A large body of research has adopted shortened or computerised versions of the WCST
+for cognitive flexibility studies in healthy participants, neurological and psychiatric populations,
+and developmental samples (see Nyhus & Barcelo, 2009, for a review). To make valid comparisons,
+the following design parameters should be reported and checked:
+
+1. Rule-shift criterion. This task uses a fixed 7-trial block. Other research versions use fixed-
+   trial blocks of varying length (e.g., 10, 12, or 20 trials per category) or performance-based
+   shifts (e.g., after a run of consecutive correct responses). Results from fixed-block designs
+   are most directly comparable with this task; criterion-based designs will typically show lower
+   error rates because participants receive more trials before the rule shifts.
+
+2. Number of trials and blocks. With 42 trials across 6 blocks, this task is shorter than most
+   research versions. Error counts and raw accuracy totals are less reliable than in longer
+   variants. Report proportions rather than raw counts when comparing across studies with different
+   trial numbers.
+
+3. Instruction content. Because this task discloses the three sorting dimensions in the
+   instructions, it is most comparable to other versions that do the same. Versions that withhold
+   this information impose a greater inductive-reasoning component and typically yield higher error
+   rates and longer times to first category shift, especially in early blocks.
+
+4. Response modality. This task uses mouse clicks; variants requiring keyboard presses or physical
+   card sorting differ in motor demands and may yield different RT distributions.
+
+5. Feedback duration. Feedback is displayed for 1 second. Studies using longer or shorter feedback
+   windows may differ in how quickly participants can adjust their sorting strategy.
+
+Outcome measures suitable for cross-study comparison:
+    - Proportion correct per block and per rule (accuracy)
+    - Mean and median reaction time per block
+    - Number of errors on the first trial of each new block (immediate post-shift errors), which
+      provides a measure of cognitive flexibility that is relatively robust to differences in block
+      length
+    - Within-block learning: accuracy on the second half of each block relative to the first half,
+      as an index of within-category rule acquisition
+    - Rule-by-repetition interactions: whether performance differs between the first and second
+      exposure to each rule within the session (rule-specific learning)
 
 
 Analysing your data
@@ -156,6 +201,10 @@ Kongs, S. K., Thompson, L. L., Iverson, G. L., & Heaton, R. K. (2000). Wisconsin
 
 Strauss, E., Sherman, E. M. S., & Spreen, O. (2006). A compendium of neuropsychological tests:
     Administration, norms, and commentary (3rd ed.). Oxford University Press.
+
+Nyhus, E., & Barcelo, F. (2009). The Wisconsin Card Sorting Test and the cognitive neuroscience of
+    prefrontal cortex and attention networks. Brain and Cognition, 71(3), 352-365.
+    https://doi.org/10.1016/j.bandc.2009.03.005
 
 Peirce, J., Gray, J. R., Simpson, S., MacAskill, M., Hochenberger, R., Sogo, H., Kastman, E., &
     Lindelov, J. K. (2019). PsychoPy2: Experiments in behavior made easy. Behavior Research
