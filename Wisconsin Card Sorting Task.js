@@ -48,19 +48,13 @@ psychoJS.openWindow({
   waitBlanking: true
 });
 // schedule the experiment:
-if (Object.keys(_dialogExpInfo).length > 0) {
-  // Show dialog with only the fields that were not provided via URL.
-  psychoJS.schedule(psychoJS.gui.DlgFromDict({
-    dictionary: _dialogExpInfo,
-    title: expName
-  }));
-} else {
-  // All fields were provided via URL — skip the dialog entirely.
-  psychoJS.schedule(async function() {
-    psychoJS.gui.dialogComponent = {button: 'OK'};
-    return Scheduler.Event.NEXT;
-  });
-}
+// Always show the setup dialog so resources can be loaded and the participant
+// can confirm readiness. Fields already provided via URL are omitted from the
+// dialog, but the dialog itself is always displayed.
+psychoJS.schedule(psychoJS.gui.DlgFromDict({
+  dictionary: _dialogExpInfo,
+  title: expName
+}));
 
 const flowScheduler = new Scheduler(psychoJS);
 const dialogCancelScheduler = new Scheduler(psychoJS);
