@@ -7,17 +7,19 @@ The experiment
 Participants are presented with four fixed target cards displayed across the top of the screen:
 (1) one red dot, (2) two yellow triangles, (3) three green crosses, and (4) four blue stars.
 On each trial a test card appears in the centre of the screen. Participants must sort the test card
-by clicking on whichever target card they believe matches according to an unknown rule. The rule can
-be based on colour (match the target card of the same colour), shape (match the target card of the
-same shape), or number (match the target card with the same number of symbols). After every
-response, feedback ("Correct!" or "Incorrect") is displayed for 1 second.
+by clicking on whichever target card they believe matches according to an unknown rule. No
+information about the nature of the rule is given; participants must discover it through trial-and-
+error using the "Correct!" / "Incorrect" feedback displayed for 1 second after each response.
 
 Instructions given to participants:
-    "In this task you will be required to sort the presented cards based on a rule i.e. the cards
-    will have to be sorted based on either colour, shape or number. The rule will not be presented,
-    however you will receive feedback on each trial. After a certain amount of trials the rule will
-    change to a different one. To select your response click on one of the four cards presented at
-    the top of the screen."
+    Screen 1: "In this task you will be required to sort the presented cards based on a rule. The
+    rule will not be presented, however you will receive feedback on each trial. After a certain
+    amount of trials the rule will change. To select your response click on one of the four cards
+    presented at the top of the screen."
+
+    Screen 2 (example): "Place the card shown at the bottom of the screen under one of the four
+    cards at the top by clicking on the card you think it matches. After you select your response,
+    feedback will be provided. Click on the image to start the experiment."
 
 Stimuli:
     The stimulus set consists of 192 test cards drawn from the full factorial combination of four
@@ -72,8 +74,21 @@ The present computerised implementation differs from the standard version in the
    precision reaction-time recording, but normative data from Heaton et al. (1993) and comparable
    sources were collected with physical materials.
 
-Implications: Because rule shifts are time-based rather than criterion-based, and because the total
-trial count is substantially reduced, the standard clinical indices (perseverative errors,
+6. Instructions name the sorting dimensions (original version of this task). An earlier version of
+   this task told participants in the instructions that sorting could be "based on either colour,
+   shape or number." The standard WCST explicitly prohibits revealing the sorting principles to
+   participants: "While it is permissible to clarify the meaning of the stimulus (key) cards and
+   the manner in which the client is to respond, the examiner must never violate the integrity of
+   the WCST by giving any indication of the sorting principles or the nature of the shift from one
+   category to the next" (Strauss et al., 2006, p. 655). Disclosing the dimension names reduces
+   the inductive-reasoning demand of the task and may lower scores on measures sensitive to
+   concept formation (e.g., trials to first category, total errors in early blocks). The
+   instruction text has been corrected in the current version to omit all mention of the sorting
+   dimensions.
+
+Implications: Because rule shifts are time-based rather than criterion-based, because the total
+trial count is substantially reduced, and because an earlier version of this task disclosed the
+sorting dimensions in the instructions, the standard clinical indices (perseverative errors,
 perseverative responses, categories completed, failure to maintain set) cannot be interpreted using
 published normative data (Heaton et al., 1993; Kongs et al., 2000). The task is suitable for
 experimental research requiring a brief, computerised measure of cognitive flexibility and set-
@@ -136,6 +151,9 @@ Heaton, R. K., Chelune, G. J., Talley, J. L., Kay, G. G., & Curtiss, G. (1993). 
 
 Kongs, S. K., Thompson, L. L., Iverson, G. L., & Heaton, R. K. (2000). Wisconsin Card Sorting
     Test-64 Card Version (WCST-64). Psychological Assessment Resources.
+
+Strauss, E., Sherman, E. M. S., & Spreen, O. (2006). A compendium of neuropsychological tests:
+    Administration, norms, and commentary (3rd ed.). Oxford University Press.
 
 Peirce, J., Gray, J. R., Simpson, S., MacAskill, M., Hochenberger, R., Sogo, H., Kastman, E., &
     Lindelov, J. K. (2019). PsychoPy2: Experiments in behavior made easy. Behavior Research
