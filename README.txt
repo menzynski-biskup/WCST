@@ -26,11 +26,13 @@ Instructions given to participants:
     start the experiment."
 
 Stimuli:
-    The stimulus set consists of 192 test cards drawn from the full factorial combination of four
-    colours (red, blue, green, yellow), four shapes (dot, triangle, cross, star), and four
-    numerosities (1, 2, 3, 4), yielding 64 unique cards per sorting dimension. Three sorting rules
-    are used (colour, number, shape), each associated with a distinct subset of 64 cards from the
-    stimulus file (cards.xlsx). Each card subset is randomised independently within its block.
+    The stimulus set consists of 64 unique test cards drawn from the full factorial combination of
+    four colours (red, blue, green, yellow), four shapes (dot, triangle, cross, star), and four
+    numerosities (1, 2, 3, 4). The same 64 cards are used under each of the three sorting rules
+    (colour, number, shape), with the correct response varying by rule. The stimulus file
+    (cards.xlsx) therefore contains 192 rows in total (64 cards x 3 rules), and each block draws
+    its trials from the 64 rows assigned to the active rule. Each block's card order is
+    randomised independently.
 
 Trial and block structure:
     The task consists of 6 blocks. Each block is randomly drawn (without replacement within a pair
