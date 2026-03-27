@@ -77,9 +77,12 @@ The present computerised implementation differs from the standard version in the
 
 6. Instructions disclose the sorting dimensions. The participant instructions explicitly state that
    cards "will have to be sorted based on either colour, shape or number" and the example screen
-   names each dimension individually. The standard WCST does not disclose the sorting dimensions.
-   Disclosing the dimension names reduces the inductive-reasoning demand of the task and represents
-   a significant departure from the standard procedure.
+   names each dimension individually. The standard WCST explicitly prohibits this: "While it is
+   permissible to clarify the meaning of the stimulus (key) cards and the manner in which the
+   client is to respond, the examiner must never violate the integrity of the WCST by giving any
+   indication of the sorting principles or the nature of the shift from one category to the next"
+   (Strauss et al., 2006, p. 655). Disclosing the dimension names reduces the inductive-reasoning
+   demand of the task and represents a significant departure from the standard procedure.
 
 Implications: This version differs substantially from the standard WCST in multiple respects: rule
 shifts are time-based rather than criterion-based, the total trial count is considerably reduced,
@@ -87,22 +90,22 @@ the instructions disclose the sorting dimensions, and the computerised format ha
 against the original. The task has not been standardised or validated, and it should not be treated
 as equivalent to the standard WCST. It is intended for research purposes only, as a brief
 computerised measure of cognitive flexibility and set-shifting, and results should be interpreted
-with that context in mind. For guidance on comparing results with other research studies, see the
-section below.
+with that context in mind.
 
 
 Comparing with other research versions of the WCST
 ---------------------------------------------------
 
-The results can be compared to other research studies that used modified or computerised versions of WCST.
-There is quite a lot of such research, especially in studies of cognitive flexibility and prefrontal
-functions (Nyhus & Barcelo, 2009). However different research versions vary quite a lot in how many
-trials they use, whether rule shifts are fixed or criterion-based, and also whether or not sorting
-dimensions are disclosed to participants. This version uses fixed 7-trial blocks and discloses the
-dimensions in instructions, which will affect how results compare to other versions.
-When comparing across studies it is probably best to use proportion correct as the main accuracy
-measure (Heaton et al., 1993) rather than raw error counts, because different versions have
-different total number of trials.
+Although there is a body of research using modified or computerised versions of the WCST (Nyhus &
+Barcelo, 2009), direct comparison of results across versions is not straightforward and should be
+treated with caution. Research versions differ substantially from one another in the number of
+trials administered, whether rule shifts are fixed or criterion-based, and whether or not sorting
+dimensions are disclosed to participants. These differences affect the difficulty of the task, the
+distribution of errors, and the statistical properties of derived scores. Because this version uses
+short fixed-length blocks and discloses the sorting dimensions in the instructions — features that
+significantly alter task demands — quantitative comparison of scores with studies using different
+protocols is unlikely to be meaningful. Results should therefore be interpreted on their own terms
+rather than benchmarked against other WCST variants.
 
 
 Analysing your data
@@ -162,6 +165,9 @@ Heaton, R. K., Chelune, G. J., Talley, J. L., Kay, G. G., & Curtiss, G. (1993). 
 Nyhus, E., & Barcelo, F. (2009). The Wisconsin Card Sorting Test and the cognitive neuroscience of
     prefrontal cortex and attention networks. Brain and Cognition, 71(3), 352-365.
     https://doi.org/10.1016/j.bandc.2009.03.005
+
+Strauss, E., Sherman, E. M. S., & Spreen, O. (2006). A compendium of neuropsychological tests:
+    Administration, norms, and commentary (3rd ed.). Oxford University Press.
 
 Peirce, J., Gray, J. R., Simpson, S., MacAskill, M., Hochenberger, R., Sogo, H., Kastman, E., &
     Lindelov, J. K. (2019). PsychoPy2: Experiments in behavior made easy. Behavior Research
