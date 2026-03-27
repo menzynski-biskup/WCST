@@ -55,56 +55,46 @@ performance.
 The present computerised implementation differs from the standard version in the following ways:
 
 1. Fixed rather than criterion-based rule shifts. In the standard WCST the rule changes only after
-   10 consecutive correct responses, making attainment of each category contingent on performance.
-   Here the rule changes after exactly 7 trials regardless of accuracy. This removes the
-   criterion-based element that is central to the clinical interpretation of perseverative errors
-   and the total number of categories completed, so those standard indices cannot be computed.
+   10 consecutive correct responses. Here the rule changes after exactly 7 trials regardless of
+   accuracy. This is a significant structural departure from the standard procedure and means the
+   task has not been validated against the standard version.
 
 2. Fewer trials per block. Seven trials per block is substantially shorter than the 10-consecutive-
    correct-response criterion required in the standard version. The shorter block length reduces
-   statistical power for estimating within-block learning and limits the detection of perseverative
-   responding.
+   statistical power for estimating within-block learning and has not been systematically tested.
 
 3. Reduced total trial count. The standard WCST administers 64 to 128 cards; this version
    administers exactly 42. The reduced number of trials limits the reliability of derived scores
-   (e.g., total errors, perseverative errors) relative to normative data collected with the full
-   version.
+   (e.g., total errors, perseverative errors), and this version has not been validated or normed.
 
 4. Fixed number of categories. The task always presents exactly 6 rule blocks (2 repetitions x 3
    rules), whereas the standard WCST terminates either at 6 categories or at card 128. The fixed
-   structure ensures all participants complete the same number of shifts and removes variance in
-   categories completed as an outcome measure.
+   structure is a notable deviation from the standard version and has not been independently tested.
 
 5. Computer-administered mouse-click response. The original WCST uses physical cards sorted by
-   hand. Computerised administration may reduce administration variability and permits millisecond-
-   precision reaction-time recording, but normative data from Heaton et al. (1993) and comparable
-   sources were collected with physical materials.
+   hand. This computerised implementation differs in modality and has not been validated against
+   the standard paper-based procedure.
 
 6. Instructions disclose the sorting dimensions. The participant instructions explicitly state that
    cards "will have to be sorted based on either colour, shape or number" and the example screen
-   names each dimension individually. The standard WCST explicitly prohibits this: "While it is
-   permissible to clarify the meaning of the stimulus (key) cards and the manner in which the
-   client is to respond, the examiner must never violate the integrity of the WCST by giving any
-   indication of the sorting principles or the nature of the shift from one category to the next"
-   (Strauss et al., 2006, p. 655). Disclosing the dimension names reduces the inductive-reasoning
-   demand of the task and may lower scores on measures sensitive to concept formation (e.g., trials
-   to first category, total errors in early blocks).
+   names each dimension individually. The standard WCST does not disclose the sorting dimensions.
+   Disclosing the dimension names reduces the inductive-reasoning demand of the task and represents
+   a significant departure from the standard procedure.
 
-Implications: Because rule shifts are time-based rather than criterion-based, because the total
-trial count is substantially reduced, and because the instructions disclose the sorting dimensions
-to participants, the standard clinical indices (perseverative errors, perseverative responses,
-categories completed, failure to maintain set) cannot be interpreted using published normative data
-(Heaton et al., 1993; Kongs et al., 2000). The task is suitable for experimental research requiring
-a brief, computerised measure of cognitive flexibility and set-shifting, but direct comparisons with
-clinical WCST norms should be made with caution. For guidance on comparing results with other
-research studies, see the section below.
+Implications: This version differs substantially from the standard WCST in multiple respects: rule
+shifts are time-based rather than criterion-based, the total trial count is considerably reduced,
+the instructions disclose the sorting dimensions, and the computerised format has not been validated
+against the original. The task has not been standardised or validated, and it should not be treated
+as equivalent to the standard WCST. It is intended for research purposes only, as a brief
+computerised measure of cognitive flexibility and set-shifting, and results should be interpreted
+with that context in mind. For guidance on comparing results with other research studies, see the
+section below.
 
 
 Comparing with other research versions of the WCST
 ---------------------------------------------------
 
-Even though comparison with clinical norms is not appropriate here (see above), the results can
-still be compared to other research studies that used modified or computerised versions of WCST.
+The results can be compared to other research studies that used modified or computerised versions of WCST.
 There is quite a lot of such research, especially in studies of cognitive flexibility and prefrontal
 functions (Nyhus & Barcelo, 2009). However different research versions vary quite a lot in how many
 trials they use, whether rule shifts are fixed or criterion-based, and also whether or not sorting
@@ -168,12 +158,6 @@ Grant, D. A., & Berg, E. A. (1948). A behavioral analysis of degree of reinforce
 
 Heaton, R. K., Chelune, G. J., Talley, J. L., Kay, G. G., & Curtiss, G. (1993). Wisconsin Card
     Sorting Test manual: Revised and expanded. Psychological Assessment Resources.
-
-Kongs, S. K., Thompson, L. L., Iverson, G. L., & Heaton, R. K. (2000). Wisconsin Card Sorting
-    Test-64 Card Version (WCST-64). Psychological Assessment Resources.
-
-Strauss, E., Sherman, E. M. S., & Spreen, O. (2006). A compendium of neuropsychological tests:
-    Administration, norms, and commentary (3rd ed.). Oxford University Press.
 
 Nyhus, E., & Barcelo, F. (2009). The Wisconsin Card Sorting Test and the cognitive neuroscience of
     prefrontal cortex and attention networks. Brain and Cognition, 71(3), 352-365.
