@@ -335,7 +335,8 @@ async function experimentInit() {
   instructions = new visual.TextStim({
     win: psychoJS.window,
     name: 'instructions',
-    text: 'You will see four cards displayed at the top of the screen.',
+    text: [
+      'You will see four cards displayed at the top of the screen.',
       'One card at a time will appear in the centre of the screen.',
       '',
       'Your task is to place each card under one of the four cards at the top',
@@ -348,7 +349,7 @@ async function experimentInit() {
       'find the new rule as quickly as possible.',
       '',
       'Work as quickly and accurately as you can.',
-      '',
+      '',].join('\n'),
     font: 'Arial',
     units: undefined, 
     pos: [0, 0], height: 0.05,  wrapWidth: 0.9, ori: 0,
