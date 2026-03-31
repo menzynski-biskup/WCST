@@ -494,6 +494,7 @@ async function experimentInit() {
 
 var t;
 var frameN;
+var frameRemains;
 var continueRoutine;
 var gotValidClick;
 var InstructionsComponents;
