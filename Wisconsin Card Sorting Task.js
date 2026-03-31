@@ -10,6 +10,130 @@ const { Scheduler } = util;
 const { abs, sin, cos, PI: pi, sqrt } = Math;
 const { round } = util;
 
+// ─────────────────────────────────────────────────────────────
+// WCST-64 CONSTANTS
+// ─────────────────────────────────────────────────────────────
+
+const COLORS   = ['red', 'green', 'yellow', 'blue'];
+const SHAPES   = ['triangle', 'star', 'cross', 'dot'];
+const NUMBERS  = [1, 2, 3, 4];
+
+// 6 sets, 10 consecutive correct answers required per set
+const PRINCIPLES      = ['colour', 'shape', 'number', 'colour', 'shape', 'number'];
+const CORRECT_PER_SET = 10;
+
+// Fixed reference cards (top row):
+//   pos 0: 1 red triangle   pos 1: 2 green stars
+//   pos 2: 3 yellow crosses  pos 3: 4 blue dots
+const REF_CARDS = [
+  { number: 1, color: 'red',    shape: 'triangle' },
+  { number: 2, color: 'green',  shape: 'star'     },
+  { number: 3, color: 'yellow', shape: 'cross'    },
+  { number: 4, color: 'blue',   shape: 'dot'      },
+];
+
+// Pre-computed 64-card deck (no two consecutive cards share colour, shape, OR number)
+const DECK = [
+  {number:2,color:'blue',   shape:'star'},
+  {number:1,color:'red',    shape:'triangle'},
+  {number:3,color:'green',  shape:'cross'},
+  {number:4,color:'yellow', shape:'dot'},
+  {number:1,color:'red',    shape:'star'},
+  {number:2,color:'green',  shape:'cross'},
+  {number:3,color:'yellow', shape:'dot'},
+  {number:1,color:'blue',   shape:'triangle'},
+  {number:4,color:'green',  shape:'cross'},
+  {number:1,color:'blue',   shape:'star'},
+  {number:2,color:'yellow', shape:'dot'},
+  {number:3,color:'red',    shape:'triangle'},
+  {number:4,color:'green',  shape:'dot'},
+  {number:2,color:'red',    shape:'triangle'},
+  {number:3,color:'yellow', shape:'cross'},
+  {number:4,color:'blue',   shape:'star'},
+  {number:1,color:'green',  shape:'cross'},
+  {number:2,color:'red',    shape:'star'},
+  {number:3,color:'yellow', shape:'triangle'},
+  {number:4,color:'blue',   shape:'dot'},
+  {number:1,color:'red',    shape:'cross'},
+  {number:2,color:'green',  shape:'star'},
+  {number:3,color:'blue',   shape:'triangle'},
+  {number:1,color:'yellow', shape:'dot'},
+  {number:4,color:'green',  shape:'star'},
+  {number:2,color:'red',    shape:'cross'},
+  {number:4,color:'blue',   shape:'triangle'},
+  {number:3,color:'red',    shape:'cross'},
+  {number:1,color:'green',  shape:'star'},
+  {number:2,color:'blue',   shape:'triangle'},
+  {number:1,color:'red',    shape:'dot'},
+  {number:2,color:'yellow', shape:'triangle'},
+  {number:1,color:'green',  shape:'dot'},
+  {number:2,color:'yellow', shape:'star'},
+  {number:3,color:'blue',   shape:'cross'},
+  {number:4,color:'red',    shape:'dot'},
+  {number:2,color:'yellow', shape:'cross'},
+  {number:3,color:'blue',   shape:'star'},
+  {number:4,color:'red',    shape:'triangle'},
+  {number:1,color:'blue',   shape:'dot'},
+  {number:3,color:'green',  shape:'star'},
+  {number:4,color:'yellow', shape:'triangle'},
+  {number:3,color:'green',  shape:'dot'},
+  {number:4,color:'red',    shape:'cross'},
+  {number:1,color:'yellow', shape:'triangle'},
+  {number:3,color:'blue',   shape:'dot'},
+  {number:4,color:'red',    shape:'star'},
+  {number:1,color:'yellow', shape:'cross'},
+  {number:2,color:'green',  shape:'dot'},
+  {number:4,color:'yellow', shape:'cross'},
+  {number:2,color:'green',  shape:'triangle'},
+  {number:3,color:'red',    shape:'star'},
+  {number:1,color:'blue',   shape:'cross'},
+  {number:3,color:'red',    shape:'dot'},
+  {number:4,color:'green',  shape:'triangle'},
+  {number:1,color:'yellow', shape:'star'},
+  {number:2,color:'blue',   shape:'cross'},
+  {number:3,color:'green',  shape:'triangle'},
+  {number:2,color:'blue',   shape:'dot'},
+  {number:4,color:'yellow', shape:'star'},
+  {number:1,color:'green',  shape:'triangle'},
+  {number:2,color:'red',    shape:'dot'},
+  {number:3,color:'yellow', shape:'star'},
+  {number:4,color:'blue',   shape:'cross'},
+];
+
+// ─────────────────────────────────────────────────────────────
+// WCST-64 HELPER FUNCTIONS
+// ─────────────────────────────────────────────────────────────
+
+function cardImage(n, c, s) {
+  const shapeNames = {
+    triangle: n === 1 ? 'Triangle' : 'Triangles',
+    star:     n === 1 ? 'Star'     : 'Stars',
+    cross:    n === 1 ? 'Cross'    : 'Crosses',
+    dot:      n === 1 ? 'Dot'      : 'Dots',
+  };
+  return `images/${n}${c}${shapeNames[s]}.jpg`;
+}
+
+function getCorrectRefIdx(card, principle) {
+  if (principle === 'colour') return COLORS.indexOf(card.color);
+  if (principle === 'shape')  return SHAPES.indexOf(card.shape);
+  return NUMBERS.indexOf(card.number);
+}
+
+function getUsedPrinciples(stim, clickedIdx) {
+  const ref  = REF_CARDS[clickedIdx];
+  const used = [];
+  if (stim.color  === ref.color)  used.push('colour');
+  if (stim.shape  === ref.shape)  used.push('shape');
+  if (stim.number === ref.number) used.push('number');
+  return used;
+}
+
+function getErrorType(usedPrinciples, currentPrinciple, previousPrinciple) {
+  if (usedPrinciples.includes(currentPrinciple))                        return 'none';
+  if (previousPrinciple && usedPrinciples.includes(previousPrinciple)) return 'perseverative';
+  return 'non-perseverative';
+}
 
 // store info about the experiment session:
 let expName = 'Wisconsin Card Sorting Task';  // from the Builder filename that created this script
@@ -69,10 +193,10 @@ flowScheduler.add(InstructionsRoutineEnd());
 flowScheduler.add(ExampleRoutineBegin());
 flowScheduler.add(ExampleRoutineEachFrame());
 flowScheduler.add(ExampleRoutineEnd());
-const blocksLoopScheduler = new Scheduler(psychoJS);
-flowScheduler.add(blocksLoopBegin(blocksLoopScheduler));
-flowScheduler.add(blocksLoopScheduler);
-flowScheduler.add(blocksLoopEnd);
+const trialLoopScheduler = new Scheduler(psychoJS);
+flowScheduler.add(trialLoopBegin(trialLoopScheduler));
+flowScheduler.add(trialLoopScheduler);
+flowScheduler.add(trialLoopEnd);
 flowScheduler.add(EndRoutineBegin());
 flowScheduler.add(EndRoutineEachFrame());
 flowScheduler.add(EndRoutineEnd());
@@ -112,7 +236,6 @@ psychoJS.start({
     {'name': 'images/3greenTriangles.jpg', 'path': 'images/3greenTriangles.jpg'},
     {'name': 'images/2greenTriangles.jpg', 'path': 'images/2greenTriangles.jpg'},
     {'name': 'images/4blueCrosses.jpg', 'path': 'images/4blueCrosses.jpg'},
-    {'name': 'cards.xlsx', 'path': 'cards.xlsx'},
     {'name': 'images/2redStars.jpg', 'path': 'images/2redStars.jpg'},
     {'name': 'continue.png', 'path': 'continue.png'},
     {'name': 'images/3blueDots.jpg', 'path': 'images/3blueDots.jpg'},
@@ -125,7 +248,6 @@ psychoJS.start({
     {'name': 'images/4blueDots.jpg', 'path': 'images/4blueDots.jpg'},
     {'name': 'images/4redDots.jpg', 'path': 'images/4redDots.jpg'},
     {'name': 'images/4greenTriangles.jpg', 'path': 'images/4greenTriangles.jpg'},
-    {'name': 'chooseRule.xlsx', 'path': 'chooseRule.xlsx'},
     {'name': 'images/4greenCrosses.jpg', 'path': 'images/4greenCrosses.jpg'},
     {'name': 'images/4blueStars.jpg', 'path': 'images/4blueStars.jpg'},
     {'name': 'images/1greenCross.jpg', 'path': 'images/1greenCross.jpg'},
@@ -194,17 +316,15 @@ var example_text;
 var example_image;
 var example_text_2;
 var mouse;
-var TrialsClock;
-var fixation;
-var one_red_dot;
-var two_yellow_triangles;
-var three_green_crosses;
-var four_blue_stars;
+var one_red_triangle;
+var two_green_stars;
+var three_yellow_crosses;
+var four_blue_dots;
 var trial_card;
 var response;
-var FeedbackClock;
-var msg;
 var feedback_text;
+var progressText;
+var separator;
 var EndClock;
 var thank_you;
 var globalClock;
@@ -274,80 +394,88 @@ async function experimentInit() {
   });
   mouse.mouseClock = new util.Clock();
   // Initialize components for Routine "Trials"
-  TrialsClock = new util.Clock();
-  fixation = new visual.TextStim({
-    win: psychoJS.window,
-    name: 'fixation',
-    text: '+',
-    font: 'Arial',
-    units: undefined, 
-    pos: [0, 0], height: 0.05,  wrapWidth: undefined, ori: 0,
-    color: new util.Color('white'),  opacity: 1,
-    depth: -1.0 
-  });
-  
-  one_red_dot = new visual.ImageStim({
+  one_red_triangle = new visual.ImageStim({
     win : psychoJS.window,
-    name : 'one_red_dot', units : undefined, 
-    image : 'images/1redDot.jpg', mask : undefined,
-    ori : 0, pos : [(- 0.375), 0.25], size : [0.2, 0.2],
+    name : 'one_red_triangle', units : undefined,
+    image : cardImage(REF_CARDS[0].number, REF_CARDS[0].color, REF_CARDS[0].shape), mask : undefined,
+    ori : 0, pos : [-0.40, 0.315], size : [0.155, 0.205],
     color : new util.Color([1, 1, 1]), opacity : 1,
     flipHoriz : false, flipVert : false,
-    texRes : 128, interpolate : true, depth : -2.0 
+    texRes : 128, interpolate : true, depth : -1.0
   });
-  two_yellow_triangles = new visual.ImageStim({
+  two_green_stars = new visual.ImageStim({
     win : psychoJS.window,
-    name : 'two_yellow_triangles', units : undefined, 
-    image : 'images/2yellowTriangles.jpg', mask : undefined,
-    ori : 0, pos : [(- 0.125), 0.25], size : [0.2, 0.2],
+    name : 'two_green_stars', units : undefined,
+    image : cardImage(REF_CARDS[1].number, REF_CARDS[1].color, REF_CARDS[1].shape), mask : undefined,
+    ori : 0, pos : [-0.13, 0.315], size : [0.155, 0.205],
     color : new util.Color([1, 1, 1]), opacity : 1,
     flipHoriz : false, flipVert : false,
-    texRes : 128, interpolate : true, depth : -3.0 
+    texRes : 128, interpolate : true, depth : -2.0
   });
-  three_green_crosses = new visual.ImageStim({
+  three_yellow_crosses = new visual.ImageStim({
     win : psychoJS.window,
-    name : 'three_green_crosses', units : undefined, 
-    image : 'images/3greenCrosses.jpg', mask : undefined,
-    ori : 0, pos : [0.125, 0.25], size : [0.2, 0.2],
+    name : 'three_yellow_crosses', units : undefined,
+    image : cardImage(REF_CARDS[2].number, REF_CARDS[2].color, REF_CARDS[2].shape), mask : undefined,
+    ori : 0, pos : [0.13, 0.315], size : [0.155, 0.205],
     color : new util.Color([1, 1, 1]), opacity : 1,
     flipHoriz : false, flipVert : false,
-    texRes : 128, interpolate : true, depth : -4.0 
+    texRes : 128, interpolate : true, depth : -3.0
   });
-  four_blue_stars = new visual.ImageStim({
+  four_blue_dots = new visual.ImageStim({
     win : psychoJS.window,
-    name : 'four_blue_stars', units : undefined, 
-    image : 'images/4blueStars.jpg', mask : undefined,
-    ori : 0, pos : [0.375, 0.25], size : [0.2, 0.2],
+    name : 'four_blue_dots', units : undefined,
+    image : cardImage(REF_CARDS[3].number, REF_CARDS[3].color, REF_CARDS[3].shape), mask : undefined,
+    ori : 0, pos : [0.40, 0.315], size : [0.155, 0.205],
     color : new util.Color([1, 1, 1]), opacity : 1,
     flipHoriz : false, flipVert : false,
-    texRes : 128, interpolate : true, depth : -5.0 
+    texRes : 128, interpolate : true, depth : -4.0
   });
   trial_card = new visual.ImageStim({
     win : psychoJS.window,
-    name : 'trial_card', units : undefined, 
+    name : 'trial_card', units : undefined,
     image : undefined, mask : undefined,
-    ori : 0, pos : [0, (- 0.2)], size : [0.25, 0.25],
+    ori : 0, pos : [0.0, -0.13], size : [0.195, 0.255],
     color : new util.Color([1, 1, 1]), opacity : 1,
     flipHoriz : false, flipVert : false,
-    texRes : 128, interpolate : true, depth : -6.0 
+    texRes : 128, interpolate : true, depth : -5.0
   });
   response = new core.Mouse({
     win: psychoJS.window,
   });
   response.mouseClock = new util.Clock();
   // Initialize components for Routine "Feedback"
-  FeedbackClock = new util.Clock();
-  msg = "";
-  
   feedback_text = new visual.TextStim({
     win: psychoJS.window,
     name: 'feedback_text',
     text: '',
     font: 'Arial',
-    units: undefined, 
-    pos: [0, 0], height: 0.05,  wrapWidth: undefined, ori: 0,
+    units: undefined,
+    pos: [0, 0.055], height: 0.075,  wrapWidth: undefined, ori: 0,
+    bold: true,
     color: new util.Color('white'),  opacity: 1,
-    depth: -1.0 
+    depth: -1.0
+  });
+  // Thin horizontal separator between reference row and task area
+  separator = new visual.Rect({
+    win: psychoJS.window,
+    name: 'separator',
+    width: 1.70, height: 0.003,
+    fillColor: new util.Color([0.3, 0.3, 0.3]),
+    lineColor: new util.Color([0.3, 0.3, 0.3]),
+    pos: [0, 0.155],
+    units: 'height',
+    depth: -2.0
+  });
+  // Progress indicator (bottom, centred)
+  progressText = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'progress_text',
+    text: '',
+    font: 'Arial',
+    units: undefined,
+    pos: [0, -0.44], height: 0.030,  wrapWidth: undefined, ori: 0,
+    color: new util.Color([0.4, 0.4, 0.4]),  opacity: 1,
+    depth: -3.0
   });
   
   // Initialize components for Routine "End"
@@ -644,398 +772,211 @@ function ExampleRoutineEnd() {
 }
 
 
-var blocks;
-var currentLoop;
-function blocksLoopBegin(blocksLoopScheduler, snapshot) {
+function trialLoopBegin(trialLoopScheduler) {
   return async function() {
-    TrialHandler.fromSnapshot(snapshot); // update internal variables (.thisN etc) of the loop
-    
-    // set up handler to look after randomisation of conditions etc
-    blocks = new TrialHandler({
-      psychoJS: psychoJS,
-      nReps: 2, method: TrialHandler.Method.RANDOM,
-      extraInfo: expInfo, originPath: undefined,
-      trialList: 'chooseRule.xlsx',
-      seed: undefined, name: 'blocks'
-    });
-    psychoJS.experiment.addLoop(blocks); // add the loop to the experiment
-    currentLoop = blocks;  // we're now the current loop
-    
-    // Schedule all the trials in the trialList:
-    for (const thisBlock of blocks) {
-      const snapshot = blocks.getSnapshot();
-      blocksLoopScheduler.add(importConditions(snapshot));
-      const trialsLoopScheduler = new Scheduler(psychoJS);
-      blocksLoopScheduler.add(trialsLoopBegin(trialsLoopScheduler, snapshot));
-      blocksLoopScheduler.add(trialsLoopScheduler);
-      blocksLoopScheduler.add(trialsLoopEnd);
-      blocksLoopScheduler.add(endLoopIteration(blocksLoopScheduler, snapshot));
+    _currentSet    = 0;
+    _correctInSet  = 0;
+    _prevPrinciple = null;
+    _done          = false;
+
+    for (let i = 0; i < DECK.length; i++) {
+      trialLoopScheduler.add(trialBegin(i));
+      trialLoopScheduler.add(trialEachFrame);
+      trialLoopScheduler.add(trialEnd);
+      trialLoopScheduler.add(feedbackBegin);
+      trialLoopScheduler.add(feedbackEachFrame);
+      trialLoopScheduler.add(feedbackEnd(i));
+      trialLoopScheduler.add(checkDone(trialLoopScheduler));
     }
-    
     return Scheduler.Event.NEXT;
-  }
+  };
 }
 
 
-var trials;
-function trialsLoopBegin(trialsLoopScheduler, snapshot) {
-  return async function() {
-    TrialHandler.fromSnapshot(snapshot); // update internal variables (.thisN etc) of the loop
-    
-    // set up handler to look after randomisation of conditions etc
-    trials = new TrialHandler({
-      psychoJS: psychoJS,
-      nReps: 1, method: TrialHandler.Method.RANDOM,
-      extraInfo: expInfo, originPath: undefined,
-      trialList: TrialHandler.importConditions(psychoJS.serverManager, 'cards.xlsx', useRows),
-      seed: undefined, name: 'trials'
-    });
-    psychoJS.experiment.addLoop(trials); // add the loop to the experiment
-    currentLoop = trials;  // we're now the current loop
-    
-    // Schedule all the trials in the trialList:
-    for (const thisTrial of trials) {
-      const snapshot = trials.getSnapshot();
-      trialsLoopScheduler.add(importConditions(snapshot));
-      trialsLoopScheduler.add(TrialsRoutineBegin(snapshot));
-      trialsLoopScheduler.add(TrialsRoutineEachFrame());
-      trialsLoopScheduler.add(TrialsRoutineEnd());
-      trialsLoopScheduler.add(FeedbackRoutineBegin(snapshot));
-      trialsLoopScheduler.add(FeedbackRoutineEachFrame());
-      trialsLoopScheduler.add(FeedbackRoutineEnd());
-      trialsLoopScheduler.add(endLoopIteration(trialsLoopScheduler, snapshot));
-    }
-    
-    return Scheduler.Event.NEXT;
-  }
+async function trialLoopEnd() {
+  return Scheduler.Event.NEXT;
 }
 
 
-async function trialsLoopEnd() {
-  psychoJS.experiment.removeLoop(trials);
+function checkDone(scheduler) {
+  return function () {
+    if (_done) {
+      scheduler.stop();
+    }
+    return Scheduler.Event.NEXT;
+  };
+}
+
+
+// ─────────────────────────────────────────────────────────────
+// WCST-64 TRIAL STATE
+// ─────────────────────────────────────────────────────────────
+
+var _currentSet    = 0;
+var _correctInSet  = 0;
+var _prevPrinciple = null;
+var _done          = false;
+var _card;
+var _clickedIdx;
+var _rt;
+var _correct;
+var _usedPrinciples;
+var _errorType;
+var _trialPrinciple;
+var _trialSetNumber;
+var _trialPrevPrinciple;
+var _prevMouseDown = false;
+var _trialClock;
+var _feedbackClock;
+
+
+// ─────────────────────────────────────────────────────────────
+// TRIAL ROUTINE
+// ─────────────────────────────────────────────────────────────
+
+function trialBegin(idx) {
+  return function () {
+    _card               = DECK[idx];
+    _trialPrinciple     = PRINCIPLES[_currentSet];
+    _trialSetNumber     = _currentSet + 1;
+    _trialPrevPrinciple = _prevPrinciple;
+
+    trial_card.setImage(cardImage(_card.number, _card.color, _card.shape));
+    progressText.setText(
+      `Trial ${idx + 1} / ${DECK.length}   |   Set ${_currentSet + 1} of ${PRINCIPLES.length}`
+    );
+
+    one_red_triangle.setAutoDraw(true);
+    two_green_stars.setAutoDraw(true);
+    three_yellow_crosses.setAutoDraw(true);
+    four_blue_dots.setAutoDraw(true);
+    trial_card.setAutoDraw(true);
+    separator.setAutoDraw(true);
+    progressText.setAutoDraw(true);
+
+    _trialClock    = new util.Clock();
+    [_prevMouseDown] = response.getPressed();
+    _clickedIdx    = null;
+
+    return Scheduler.Event.NEXT;
+  };
+}
+
+
+async function trialEachFrame() {
+  const [lb] = response.getPressed();
+
+  if (lb && !_prevMouseDown) {
+    const refCards = [one_red_triangle, two_green_stars, three_yellow_crosses, four_blue_dots];
+    for (let i = 0; i < 4; i++) {
+      if (refCards[i].contains(response)) {
+        _clickedIdx    = i;
+        _rt            = _trialClock.getTime();
+        _prevMouseDown = lb;
+        return Scheduler.Event.NEXT;
+      }
+    }
+  }
+  _prevMouseDown = lb;
+
+  if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
+    return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
+  }
+
+  return Scheduler.Event.FLIP_REPEAT;
+}
+
+
+async function trialEnd() {
+  trial_card.setAutoDraw(false);
+
+  const correctIdx   = getCorrectRefIdx(_card, _trialPrinciple);
+  _correct           = (_clickedIdx === correctIdx);
+  _usedPrinciples    = getUsedPrinciples(_card, _clickedIdx);
+  _errorType         = getErrorType(_usedPrinciples, _trialPrinciple, _trialPrevPrinciple);
+
+  if (_correct) {
+    _correctInSet++;
+    if (_correctInSet >= CORRECT_PER_SET) {
+      _prevPrinciple = _trialPrinciple;
+      _currentSet++;
+      _correctInSet = 0;
+      if (_currentSet >= PRINCIPLES.length) {
+        _done = true;
+      }
+    }
+  } else {
+    _correctInSet = 0;
+  }
 
   return Scheduler.Event.NEXT;
 }
 
 
-async function blocksLoopEnd() {
-  psychoJS.experiment.removeLoop(blocks);
+// ─────────────────────────────────────────────────────────────
+// FEEDBACK ROUTINE
+// ─────────────────────────────────────────────────────────────
 
+async function feedbackBegin() {
+  _feedbackClock = new util.Clock();
+  if (_correct) {
+    feedback_text.setText('Correct!');
+    feedback_text.setColor(new util.Color([-1, 0.8, -1]));
+  } else {
+    feedback_text.setText('Incorrect!');
+    feedback_text.setColor(new util.Color([0.9, -1, -1]));
+  }
+  feedback_text.setAutoDraw(true);
   return Scheduler.Event.NEXT;
 }
 
 
-var corr;
-var rt;
-var TrialsComponents;
-function TrialsRoutineBegin(snapshot) {
-  return async function () {
-    TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
-    
-    //------Prepare to start Routine 'Trials'-------
-    t = 0;
-    TrialsClock.reset(); // clock
-    frameN = -1;
-    continueRoutine = true; // until we're told otherwise
-    // update component parameters for each repeat
-    corr = 0;
-    rt = 0;
-    console.log("card", card);
-    console.log("corrAns", corrAns);
-    
-    trial_card.setImage(card);
-    // setup some python lists for storing info about the response
-    response.clicked_name = [];
-    gotValidClick = false; // until a click is received
-    // keep track of which components have finished
-    TrialsComponents = [];
-    TrialsComponents.push(fixation);
-    TrialsComponents.push(one_red_dot);
-    TrialsComponents.push(two_yellow_triangles);
-    TrialsComponents.push(three_green_crosses);
-    TrialsComponents.push(four_blue_stars);
-    TrialsComponents.push(trial_card);
-    TrialsComponents.push(response);
-    
-    for (const thisComponent of TrialsComponents)
-      if ('status' in thisComponent)
-        thisComponent.status = PsychoJS.Status.NOT_STARTED;
+async function feedbackEachFrame() {
+  if (_feedbackClock.getTime() >= 1.0) {
     return Scheduler.Event.NEXT;
   }
-}
-
-
-var frameRemains;
-function TrialsRoutineEachFrame() {
-  return async function () {
-    //------Loop for each frame of Routine 'Trials'-------
-    // get current time
-    t = TrialsClock.getTime();
-    frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
-    // update/draw components on each frame
-    rt = Math.round((t * 1000));
-    
-    
-    // *fixation* updates
-    if (t >= 0.0 && fixation.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      fixation.tStart = t;  // (not accounting for frame time here)
-      fixation.frameNStart = frameN;  // exact frame index
-      
-      fixation.setAutoDraw(true);
-    }
-
-    frameRemains = 0.0 + 1.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if (fixation.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      fixation.setAutoDraw(false);
-    }
-    
-    // *one_red_dot* updates
-    if (t >= 0 && one_red_dot.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      one_red_dot.tStart = t;  // (not accounting for frame time here)
-      one_red_dot.frameNStart = frameN;  // exact frame index
-      
-      one_red_dot.setAutoDraw(true);
-    }
-
-    
-    // *two_yellow_triangles* updates
-    if (t >= 0 && two_yellow_triangles.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      two_yellow_triangles.tStart = t;  // (not accounting for frame time here)
-      two_yellow_triangles.frameNStart = frameN;  // exact frame index
-      
-      two_yellow_triangles.setAutoDraw(true);
-    }
-
-    
-    // *three_green_crosses* updates
-    if (t >= 0 && three_green_crosses.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      three_green_crosses.tStart = t;  // (not accounting for frame time here)
-      three_green_crosses.frameNStart = frameN;  // exact frame index
-      
-      three_green_crosses.setAutoDraw(true);
-    }
-
-    
-    // *four_blue_stars* updates
-    if (t >= 0 && four_blue_stars.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      four_blue_stars.tStart = t;  // (not accounting for frame time here)
-      four_blue_stars.frameNStart = frameN;  // exact frame index
-      
-      four_blue_stars.setAutoDraw(true);
-    }
-
-    
-    // *trial_card* updates
-    if (t >= 1 && trial_card.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      trial_card.tStart = t;  // (not accounting for frame time here)
-      trial_card.frameNStart = frameN;  // exact frame index
-      
-      trial_card.setAutoDraw(true);
-    }
-
-    // *response* updates
-    if (t >= 1 && response.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      response.tStart = t;  // (not accounting for frame time here)
-      response.frameNStart = frameN;  // exact frame index
-      
-      response.status = PsychoJS.Status.STARTED;
-      response.mouseClock.reset();
-      prevButtonState = response.getPressed();  // if button is down already this ISN'T a new click
-      }
-    if (response.status === PsychoJS.Status.STARTED) {  // only update if started and not finished!
-      _mouseButtons = response.getPressed();
-      if (!_mouseButtons.every( (e,i,) => (e == prevButtonState[i]) )) { // button state changed?
-        prevButtonState = _mouseButtons;
-        if (_mouseButtons.reduce( (e, acc) => (e+acc) ) > 0) { // state changed to a new click
-          // check if the mouse was inside our 'clickable' objects
-          gotValidClick = false;
-          for (const obj of [one_red_dot, two_yellow_triangles, three_green_crosses, four_blue_stars]) {
-            if (obj.contains(response)) {
-              gotValidClick = true;
-              response.clicked_name.push(obj.name)
-            }
-          }
-          if (gotValidClick === true) { // abort routine on response
-            continueRoutine = false;
-          }
-        }
-      }
-    }
-    // check for quit (typically the Esc key)
-    if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
-      return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
-    }
-    
-    // check if the Routine should terminate
-    if (!continueRoutine) {  // a component has requested a forced-end of Routine
-      return Scheduler.Event.NEXT;
-    }
-    
-    continueRoutine = false;  // reverts to True if at least one component still running
-    for (const thisComponent of TrialsComponents)
-      if ('status' in thisComponent && thisComponent.status !== PsychoJS.Status.FINISHED) {
-        continueRoutine = true;
-        break;
-      }
-    
-    // refresh the screen if continuing
-    if (continueRoutine) {
-      return Scheduler.Event.FLIP_REPEAT;
-    } else {
-      return Scheduler.Event.NEXT;
-    }
-  };
-}
-
-
-var _mouseXYs;
-function TrialsRoutineEnd() {
-  return async function () {
-    //------Ending Routine 'Trials'-------
-    for (const thisComponent of TrialsComponents) {
-      if (typeof thisComponent.setAutoDraw === 'function') {
-        thisComponent.setAutoDraw(false);
-      }
-    }
-    if ((response.clicked_name === corrAns)) {
-        corr = 1;
-    } else {
-        if ((one_red_dot.contains(response) && (corrAns === "one_red_dot"))) {
-            corr = 1;
-        } else {
-            if ((two_yellow_triangles.contains(response) && (corrAns === "two_yellow_triangles"))) {
-                corr = 1;
-            } else {
-                if ((three_green_crosses.contains(response) && (corrAns === "three_green_crosses"))) {
-                    corr = 1;
-                } else {
-                    if ((four_blue_stars.contains(response) && (corrAns === "four_blue_stars"))) {
-                        corr = 1;
-                    }
-                }
-            }
-        }
-    }
-    console.log("Response", response.clicked_name);
-    psychoJS.experiment.addData("Score", corr);
-    psychoJS.experiment.addData("RT", rt);
-    
-    // store data for psychoJS.experiment (ExperimentHandler)
-    _mouseXYs = response.getPos();
-    _mouseButtons = response.getPressed();
-    psychoJS.experiment.addData('response.x', _mouseXYs[0]);
-    psychoJS.experiment.addData('response.y', _mouseXYs[1]);
-    psychoJS.experiment.addData('response.leftButton', _mouseButtons[0]);
-    psychoJS.experiment.addData('response.midButton', _mouseButtons[1]);
-    psychoJS.experiment.addData('response.rightButton', _mouseButtons[2]);
-    if (response.clicked_name.length > 0) {
-      psychoJS.experiment.addData('response.clicked_name', response.clicked_name[0]);}
-    // the Routine "Trials" was not non-slip safe, so reset the non-slip timer
-    routineTimer.reset();
-    
-    return Scheduler.Event.NEXT;
-  };
-}
-
-
-var FeedbackComponents;
-function FeedbackRoutineBegin(snapshot) {
-  return async function () {
-    TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
-    
-    //------Prepare to start Routine 'Feedback'-------
-    t = 0;
-    FeedbackClock.reset(); // clock
-    frameN = -1;
-    continueRoutine = true; // until we're told otherwise
-    routineTimer.add(1.000000);
-    // update component parameters for each repeat
-    if ((corr === 1)) {
-        msg = "Correct! ";
-    } else {
-        msg = "Incorrect";
-    }
-    
-    feedback_text.setText(msg);
-    // keep track of which components have finished
-    FeedbackComponents = [];
-    FeedbackComponents.push(feedback_text);
-    
-    for (const thisComponent of FeedbackComponents)
-      if ('status' in thisComponent)
-        thisComponent.status = PsychoJS.Status.NOT_STARTED;
-    return Scheduler.Event.NEXT;
+  if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
+    return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
   }
+  return Scheduler.Event.FLIP_REPEAT;
 }
 
 
-function FeedbackRoutineEachFrame() {
-  return async function () {
-    //------Loop for each frame of Routine 'Feedback'-------
-    // get current time
-    t = FeedbackClock.getTime();
-    frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
-    // update/draw components on each frame
-    
-    // *feedback_text* updates
-    if (t >= 0 && feedback_text.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      feedback_text.tStart = t;  // (not accounting for frame time here)
-      feedback_text.frameNStart = frameN;  // exact frame index
-      
-      feedback_text.setAutoDraw(true);
-    }
+function feedbackEnd(idx) {
+  return function () {
+    feedback_text.setAutoDraw(false);
+    one_red_triangle.setAutoDraw(false);
+    two_green_stars.setAutoDraw(false);
+    three_yellow_crosses.setAutoDraw(false);
+    four_blue_dots.setAutoDraw(false);
+    separator.setAutoDraw(false);
+    progressText.setAutoDraw(false);
 
-    frameRemains = 0 + 1.0 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
-    if (feedback_text.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      feedback_text.setAutoDraw(false);
-    }
-    // check for quit (typically the Esc key)
-    if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
-      return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
-    }
-    
-    // check if the Routine should terminate
-    if (!continueRoutine) {  // a component has requested a forced-end of Routine
-      return Scheduler.Event.NEXT;
-    }
-    
-    continueRoutine = false;  // reverts to True if at least one component still running
-    for (const thisComponent of FeedbackComponents)
-      if ('status' in thisComponent && thisComponent.status !== PsychoJS.Status.FINISHED) {
-        continueRoutine = true;
-        break;
-      }
-    
-    // refresh the screen if continuing
-    if (continueRoutine && routineTimer.getTime() > 0) {
-      return Scheduler.Event.FLIP_REPEAT;
-    } else {
-      return Scheduler.Event.NEXT;
-    }
-  };
-}
+    psychoJS.experiment.addData('participant',        expInfo['participant']);
+    psychoJS.experiment.addData('group',              expInfo['group']);
+    psychoJS.experiment.addData('session',            expInfo['session']);
+    psychoJS.experiment.addData('time_of_day',        expInfo['time_of_day']);
+    psychoJS.experiment.addData('trial_number',       idx + 1);
+    psychoJS.experiment.addData('set_number',         _trialSetNumber);
+    psychoJS.experiment.addData('card_image',         cardImage(_card.number, _card.color, _card.shape));
+    psychoJS.experiment.addData('card_number',        _card.number);
+    psychoJS.experiment.addData('card_color',         _card.color);
+    psychoJS.experiment.addData('card_shape',         _card.shape);
+    psychoJS.experiment.addData('clicked_position',   _clickedIdx + 1);
+    psychoJS.experiment.addData('clicked_color',      REF_CARDS[_clickedIdx].color);
+    psychoJS.experiment.addData('clicked_shape',      REF_CARDS[_clickedIdx].shape);
+    psychoJS.experiment.addData('clicked_number',     REF_CARDS[_clickedIdx].number);
+    psychoJS.experiment.addData('current_principle',  _trialPrinciple);
+    psychoJS.experiment.addData('previous_principle', _trialPrevPrinciple || 'none');
+    psychoJS.experiment.addData('principles_used',
+      _usedPrinciples.length ? _usedPrinciples.join(',') : 'none');
+    psychoJS.experiment.addData('correct',            _correct ? 1 : 0);
+    psychoJS.experiment.addData('error_type',         _errorType);
+    psychoJS.experiment.addData('rt',                 _rt);
 
+    psychoJS.experiment.nextEntry();
 
-function FeedbackRoutineEnd() {
-  return async function () {
-    //------Ending Routine 'Feedback'-------
-    for (const thisComponent of FeedbackComponents) {
-      if (typeof thisComponent.setAutoDraw === 'function') {
-        thisComponent.setAutoDraw(false);
-      }
-    }
-    if ((trials.thisTrialN === 6)) {
-        trials.finished = true;
-    }
-    
+    [_prevMouseDown] = response.getPressed();
     return Scheduler.Event.NEXT;
   };
 }
