@@ -29,6 +29,7 @@ Example URL:
 - Correctness is based on a hidden rule (principle), which changes during the task.
 - Rule sequence:
   - `colour` → `shape` → `number` → `colour` → `shape` → `number`
+  - Note: the rule label is coded as `colour` (British spelling) in this implementation.
 - The rule changes after **10 consecutive correct** responses.
 - Task ends after all 6 sets are completed.
 - Immediate feedback is shown after each trial: `Correct!` or `Incorrect!`
@@ -68,6 +69,7 @@ Data are written trial-by-trial (CSV/online data output). Key variables:
 - `current_principle` – active sorting rule for the trial (`colour`, `shape`, `number`)
 - `previous_principle` – previous completed-set rule, or `none`
 - `principles_used` – which dimensions matched the clicked card (comma-separated, e.g. `colour,shape`) or `none`
+- Note: principle labels use `colour`, while card feature variables use `color` (for example `card_color` and `clicked_color`).
 - `correct` – correctness code:
   - `1` = correct
   - `0` = incorrect
@@ -75,4 +77,3 @@ Data are written trial-by-trial (CSV/online data output). Key variables:
   - `none` = no error (correct response)
   - `perseverative` = incorrect, but matches previous rule
   - `non-perseverative` = incorrect, does not match current or previous rule
-
