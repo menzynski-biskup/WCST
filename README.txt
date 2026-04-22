@@ -115,6 +115,31 @@ measure (Heaton et al., 1993) rather than raw error counts, because different ve
 different total number of trials.
 
 
+URL query parameters
+--------------------
+
+The task can pre-fill participant/session fields from the page URL query string.
+Only the following keys are accepted (case-sensitive):
+
+    participant
+    session
+    group
+    time_of_day
+
+How to format the URL:
+
+    <experiment_url>?participant=<value>&session=<value>&group=<value>&time_of_day=<value>
+
+Example:
+
+    https://your-server.example/WCST/index.html?participant=P001&session=001&group=control&time_of_day=morning
+
+Notes:
+    - Any query keys not listed above are ignored.
+    - Values should be URL-encoded if they contain spaces or special characters.
+    - The setup dialog is still shown, but fields passed in the URL are hidden from the dialog.
+
+
 Analysing your data
 -------------------
 
